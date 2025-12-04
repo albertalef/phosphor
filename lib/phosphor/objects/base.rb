@@ -39,7 +39,7 @@ module Phosphor
       end
 
       def on(event_name, &block)
-        Phosphor::Events::InputEventReactor.on(event_name) do |event|
+        Phosphor::Events::MainReactor.on(event_name) do |event|
           next unless app_instance.canvas.entity_on(event.y_pos, event.x_pos) == self
 
           block.call(event, self)
@@ -49,7 +49,7 @@ module Phosphor
       end
 
       def self.on(event_name, &block)
-        Phosphor::Events::InputEventReactor.on(event_name) do |event|
+        Phosphor::Events::MainReactor.on(event_name) do |event|
           next unless Phosphor::App.instance.canvas.entity_on(event.y_pos, event.x_pos).class == self
 
           block.call(event, self)

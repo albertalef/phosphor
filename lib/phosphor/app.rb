@@ -19,7 +19,7 @@ module Phosphor
       @canvas = Phosphor::Canvas.new(Curses.cols, Curses.lines)
 
       EM.run do
-        Phosphor::Events::InputEventReactor.start
+        Phosphor::Events::MainReactor.start
 
         EM.next_tick do
           on_start
@@ -66,7 +66,7 @@ module Phosphor
     end
 
     def on(event_name, &block)
-      Phosphor::Events::InputEventReactor.on(event_name, &block)
+      Phosphor::Events::MainReactor.on(event_name, &block)
     end
 
     class << self

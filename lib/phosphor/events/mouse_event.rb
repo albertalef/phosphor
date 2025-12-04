@@ -57,7 +57,7 @@ module Phosphor
       end
 
       def pressed?
-        @raw_state == 'M'
+        @raw_state == "M"
       end
     end
   end
