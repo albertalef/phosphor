@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   module Mouse
     class Utils
       def self.enable_xterm_1003

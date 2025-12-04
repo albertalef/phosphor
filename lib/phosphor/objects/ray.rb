@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   module Objects
     class Ray < Base
       attr_accessor :x1_pos, :y1_pos, :x2_pos, :y2_pos, :stroke_char
@@ -60,7 +60,7 @@ module Razor
           target = app_instance.canvas.entity_on(x0, y0)
 
           if target && target.class != self.class
-            event = Razor::Events::RayCollisionEvent.new(
+            event = Phosphor::Events::RayCollisionEvent.new(
               x_pos: x0,
               y_pos: y0,
               target:,

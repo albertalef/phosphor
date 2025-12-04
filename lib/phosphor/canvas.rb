@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   class Canvas
     attr_reader :width, :height, :objects_at
 
@@ -53,6 +53,14 @@ module Razor
           Curses.addstr(row.join)
         end
       end
+    end
+
+    def x_center_pos
+      (width / 2).floor
+    end
+
+    def y_center_pos
+      (height / 2).floor
     end
   end
 end

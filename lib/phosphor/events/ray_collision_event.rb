@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   module Events
     class RayCollisionEvent
       attr_reader :x_pos, :y_pos, :target, :distance, :des_distance

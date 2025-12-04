@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   module Objects
     class Box < Base
       attr_accessor :x_pos, :y_pos,

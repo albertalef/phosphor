@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   module Objects
     class Line < Base
       attr_accessor :x1_pos, :y1_pos, :x2_pos, :y2_pos, :stroke_char

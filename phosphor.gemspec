@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = "The best ruby gem"
   spec.homepage = "https://github.com/albertalef/phosphor"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.6.0"
+  spec.required_ruby_version = ">= 3.2.0"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 

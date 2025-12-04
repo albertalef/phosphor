@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   module Events
     class InputEventReactor
       class << self
@@ -35,7 +35,7 @@ module Razor
                     y = Regexp.last_match(3).to_i
                     state = Regexp.last_match(4)
 
-                    event = Razor::Events::MouseEvent.new(
+                    event = Phosphor::Events::MouseEvent.new(
                       raw_button: button,
                       raw_state: state,
                       x_pos: x,

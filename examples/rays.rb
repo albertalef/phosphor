@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative '../lib/razor'
+require_relative '../lib/phosphor'
 require 'debug'
 
-class Rays < Razor::App
+class Rays < Phosphor::App
   FILLER_CHARS = [
     '@', '#', 'W', '$', 'M', 'G', 'B', '%',
     'E', 'O', 'C', 'S', 'z', 'o', 'r', 'l',
@@ -20,7 +20,7 @@ class Rays < Razor::App
   end
 
   def on_start
-    Razor::Mouse::Utils.enable_xterm_1003
+    Phosphor::Mouse::Utils.enable_xterm_1003
 
     @fps_text = Text.new('FPS: x')
 

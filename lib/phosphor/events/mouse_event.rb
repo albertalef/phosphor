@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   module Events
     class MouseEvent
       attr_reader :kind, :button, :direction, :x_pos, :y_pos

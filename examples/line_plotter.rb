@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative '../lib/razor'
+require_relative '../lib/phosphor'
 require 'debug'
 
-class LinePlotter < Razor::App
+class LinePlotter < Phosphor::App
   def on_start
-    Razor::Mouse::Utils.enable_xterm_1003
+    Phosphor::Mouse::Utils.enable_xterm_1003
 
     @fps_text = Text.new('FPS: x')
     @mouse_text = Text.new('', 1, 1)

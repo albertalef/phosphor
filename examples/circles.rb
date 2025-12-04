@@ -19,8 +19,12 @@ class TextEvent < Phosphor::App
     end
 
     @text = Text.new("Teste agoraaaa", 10, 10)
-    @box = Box.new(20, 20, 15, 15)
-    @box2 = Box.new(20, 30, 30, 40, fill_char: "-")
+    @circle = Circle.new(
+      41,
+      20,
+      canvas.x_center_pos,
+      canvas.y_center_pos
+    )
 
     on(:mouse_button) do |event|
       if event.pressed?

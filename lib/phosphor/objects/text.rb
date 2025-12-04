@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   module Objects
     class Text < Base
       attr_accessor :text, :x_pos, :y_pos

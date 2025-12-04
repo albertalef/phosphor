@@ -1,20 +1,20 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative '../lib/razor'
+require_relative '../lib/phosphor'
 require 'debug'
 
-class MouseTracker < Razor::App
+class MouseTracker < Phosphor::App
   def on_start
-    Razor::Mouse::Utils.enable_xterm_1003
+    Phosphor::Mouse::Utils.enable_xterm_1003
 
-    Razor::Events::InputEventReactor.start
+    Phosphor::Events::InputEventReactor.start
 
-    @fps_text = Razor::Objects::Text.new('FPS: x')
-    @mouse_text = Razor::Objects::Text.new('', 1, 1)
-    @line = Razor::Objects::Line.new(0, 0, 0, 0)
+    @fps_text = Phosphor::Objects::Text.new('FPS: x')
+    @mouse_text = Phosphor::Objects::Text.new('', 1, 1)
+    @line = Phosphor::Objects::Line.new(0, 0, 0, 0)
     @line.hide
-    @box = Razor::Objects::Box.new(
+    @box = Phosphor::Objects::Box.new(
       8,
       8,
       10,
@@ -30,7 +30,7 @@ class MouseTracker < Razor::App
       @rendered_frames = 0
     end
 
-    Razor::Events::InputEventReactor.on(:mouse) do |event|
+    Phosphor::Events::InputEventReactor.on(:mouse) do |event|
       @mouse_text.text = "X: #{event.x_pos} Y: #{event.y_pos}"
     end
 
@@ -49,7 +49,7 @@ class MouseTracker < Razor::App
           @line.x1_pos = box.x_pos
           @line.y1_pos = box.y_pos
         else
-          @line = Razor::Objects::Line.new(0, 0, 0, 0)
+          @line = Phosphor::Objects::Line.new(0, 0, 0, 0)
           @line.hide
 
           @last_pressed_x = nil
@@ -58,7 +58,7 @@ class MouseTracker < Razor::App
       end
     end
 
-    Razor::Events::InputEventReactor.on(:mouse_move) do |event|
+    Phosphor::Events::InputEventReactor.on(:mouse_move) do |event|
       next unless @last_pressed_x
 
       if event.button == :left

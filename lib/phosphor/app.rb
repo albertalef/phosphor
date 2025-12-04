@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-module Razor
+module Phosphor
   class App
-    include Razor::Objects
+    include Phosphor::Objects
 
     attr_reader :canvas
 
     def start
-      Razor::App.instance = self
+      Phosphor::App.instance = self
 
       Curses.init_screen
       Curses.noecho
@@ -16,16 +16,17 @@ module Razor
       # Curses.stdscr.keypad(true)
       Curses.stdscr.nodelay = true
 
-      @canvas = Razor::Canvas.new(Curses.cols, Curses.lines)
+      @canvas = Phosphor::Canvas.new(Curses.cols, Curses.lines)
 
       EM.run do
-        Razor::Events::InputEventReactor.start
+        Phosphor::Events::InputEventReactor.start
 
         EM.next_tick do
           on_start
         end
 
         EM.add_periodic_timer(1.0 / 1000) do
+          @canvas.clear
           update
           render
           after_render
@@ -38,8 +39,6 @@ module Razor
     end
 
     def render
-      @canvas.clear
-
       game_objects.each do |go|
         next unless go.to_render?
 
@@ -57,9 +56,9 @@ module Razor
     def stop
       Curses.close_screen
 
-      Razor::Mouse::Utils.disable_xterm_1003
+      Phosphor::Mouse::Utils.disable_xterm_1003
 
-      Razor::App.instance = nil
+      Phosphor::App.instance = nil
     end
 
     def game_objects
@@ -67,7 +66,7 @@ module Razor
     end
 
     def on(event_name, &block)
-      Razor::Events::InputEventReactor.on(event_name, &block)
+      Phosphor::Events::InputEventReactor.on(event_name, &block)
     end
 
     class << self
