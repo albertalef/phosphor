@@ -8,12 +8,12 @@ module Phosphor
           EM.add_periodic_timer(0.01) do
             loop do
               ch = Curses.get_char
-              break if ch.nil? # nada pra ler, sai do loop
+              break if ch.nil?
 
               case ch
               when "q"
                 return stop
-              when "\e" # ESC
+              when "\e"
                 case Curses.get_char
                 when "["
                   csi = ""
