@@ -16,6 +16,7 @@ require_relative "phosphor/objects/line"
 require_relative "phosphor/objects/box"
 require_relative "phosphor/objects/ray"
 require_relative "phosphor/objects/circle"
+require_relative "phosphor/objects/image"
 
 require_relative "phosphor/rendering/canvas"
 require_relative "phosphor/rendering/color"
