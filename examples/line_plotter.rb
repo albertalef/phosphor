@@ -1,17 +1,19 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative '../lib/phosphor'
-require 'debug'
+require_relative "../lib/phosphor"
+require "debug"
+
+require "logger"
 
 class LinePlotter < Phosphor::App
   def on_start
     Phosphor::Mouse::Utils.enable_xterm_1003
 
-    @fps_text = Text.new('FPS: x')
-    @mouse_text = Text.new('', 1, 1)
+    @fps_text = Text.new("FPS: x")
+    @mouse_text = Text.new("", 1, 1)
     @lines = []
-    @line = Line.new(0, 0, 0, 0)
+    @line = Line.new(0, 0, 0, 0, stroke_char: "█")
     @line.hide
     @lines << @line
 
@@ -26,6 +28,10 @@ class LinePlotter < Phosphor::App
       @mouse_text.text = "X: #{event.x_pos} Y: #{event.y_pos}"
     end
 
+    Kernel.define_method "logger" do
+      @logger ||= Logger.new("run.log")
+    end
+
     on(:mouse_button) do |event|
       if event.button == :left
 
@@ -36,7 +42,14 @@ class LinePlotter < Phosphor::App
           @line.x1_pos = event.x_pos
           @line.y1_pos = event.y_pos
         else
-          @line = Line.new(0, 0, 0, 0)
+          @line = Line.new(
+            0,
+            0,
+            0,
+            0,
+            stroke_char: "█",
+            stroke_color_pair: ColorPair.from_foreground_rgb(*Array.new(3).fill { rand(0..100) })
+          )
           @line.hide
 
           @lines << @line
@@ -44,7 +57,7 @@ class LinePlotter < Phosphor::App
           @last_pressed_x = nil
         end
       else
-        @lines.each { |a| a.stroke_char = event.pressed? ? '@' : '-' }
+        @lines.each { |a| a.stroke_char = event.pressed? ? "*" : "█" }
       end
     end
 

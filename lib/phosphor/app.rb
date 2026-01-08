@@ -3,6 +3,7 @@
 module Phosphor
   class App
     include Phosphor::Objects
+    include Phosphor::Rendering
 
     attr_reader :canvas
 
@@ -16,7 +17,10 @@ module Phosphor
       # Curses.stdscr.keypad(true)
       Curses.stdscr.nodelay = true
 
-      @canvas = Phosphor::Canvas.new(Curses.cols, Curses.lines)
+      Curses.start_color
+      Curses.use_default_colors
+
+      @canvas = Canvas.new(Curses.cols, Curses.lines)
 
       EM.run do
         Phosphor::Events::MainReactor.start

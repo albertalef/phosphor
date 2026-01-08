@@ -17,7 +17,9 @@ require_relative "phosphor/objects/box"
 require_relative "phosphor/objects/ray"
 require_relative "phosphor/objects/circle"
 
-require_relative "phosphor/canvas"
+require_relative "phosphor/rendering/canvas"
+require_relative "phosphor/rendering/color"
+require_relative "phosphor/rendering/color_pair"
 
 require_relative "phosphor/app"
 

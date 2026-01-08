@@ -1,28 +1,28 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative '../lib/phosphor'
-require 'debug'
+require_relative "../lib/phosphor"
+require "debug"
 
 class Rays < Phosphor::App
   FILLER_CHARS = [
-    '@', '#', 'W', '$', 'M', 'G', 'B', '%',
-    'E', 'O', 'C', 'S', 'z', 'o', 'r', 'l',
-    'i', ':', ',', '.'
+    "@", "#", "W", "$", "M", "G", "B", "%",
+    "E", "O", "C", "S", "z", "o", "r", "l",
+    "i", ":", ",", "."
   ]
 
-  BRAILE_CHARS = ['⣿', '⣷', '⢾', '⢹', '⢩', '⠇', '⠃', '⠁']
+  BRAILE_CHARS = ["⣿", "⣷", "⢾", "⢹", "⢩", "⠇", "⠃", "⠁"]
 
   def char_color(actual, max)
     percentage = actual / max.to_f
 
-    FILLER_CHARS[(FILLER_CHARS.count * percentage).ceil] || '⠁'
+    FILLER_CHARS[(FILLER_CHARS.count * percentage).ceil] || "⠁"
   end
 
   def on_start
     Phosphor::Mouse::Utils.enable_xterm_1003
 
-    @fps_text = Text.new('FPS: x')
+    @fps_text = Text.new("FPS: x")
 
     @rendered_frames = 0
 
@@ -71,7 +71,7 @@ class Rays < Phosphor::App
         Curses.cols / rays,
         Curses.cols / (rays - 1) * (i - (rays - 1)).abs,
         (Curses.lines / 2) + 31,
-        fill_char: 'X',
+        fill_char: "X",
         x_anchor: :middle,
         y_anchor: :middle
       )
@@ -81,7 +81,7 @@ class Rays < Phosphor::App
       @walls[line] = box
 
       line.on_collide do |event|
-        box.height = (event.des_distance - event.distance).ceil / 2 + 40 
+        box.height = (event.des_distance - event.distance).ceil / 2 + 40
 
         box.fill_char = char_color(event.distance, event.des_distance * 0.9)
         box.stroke_char = char_color(event.distance, event.des_distance * 0.9)

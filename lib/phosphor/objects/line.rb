@@ -10,7 +10,8 @@ module Phosphor
         y1_pos,
         x2_pos,
         y2_pos,
-        stroke_char: '*'
+        stroke_char: '*',
+        stroke_color_pair: nil
       )
         @x1_pos = x1_pos
         @y1_pos = y1_pos
@@ -19,6 +20,7 @@ module Phosphor
         @y2_pos = y2_pos
 
         @stroke_char = stroke_char
+        @stroke_color_pair = stroke_color_pair
 
         super
       end
@@ -40,7 +42,13 @@ module Phosphor
         err = dx - dy
 
         loop do
-          app_instance.canvas.print_at(x0, y0, @stroke_char, self)
+          app_instance.canvas.print_at(
+            x0,
+            y0,
+            @stroke_char,
+            self,
+            color_pair: @stroke_color_pair
+          )
 
           break if x0 == x1 && y0 == y1
 
