@@ -10,7 +10,7 @@ module Phosphor
         @green_thousand = green_thousand
         @blue_thousand = blue_thousand
 
-        Curses.init_color(@color_id, red_thousand, green_thousand, blue_thousand)
+        Phosphor::App.instance.renderer.init_color(@color_id, red_thousand, green_thousand, blue_thousand)
       end
 
       def foreground_pair

@@ -68,9 +68,9 @@ class Rays < Phosphor::App
 
       box = Box.new(
         100,
-        Curses.cols / rays,
-        Curses.cols / (rays - 1) * (i - (rays - 1)).abs,
-        (Curses.lines / 2) + 31,
+        renderer.cols / rays,
+        renderer.cols / (rays - 1) * (i - (rays - 1)).abs,
+        (renderer.lines / 2) + 31,
         fill_char: "X",
         x_anchor: :middle,
         y_anchor: :middle

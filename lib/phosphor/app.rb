@@ -5,28 +5,22 @@ module Phosphor
     include Phosphor::Objects
     include Phosphor::Rendering
 
-    attr_reader :canvas, :runner
+    attr_reader :canvas, :runner, :renderer
 
     def initialize(
-      runner: Runners::RawRunner
+      runner: Runners::RawRunner,
+      renderer: Renderers::CursesRenderer
     )
       @runner = runner
+      @renderer = renderer
     end
 
     def start
       Phosphor::App.instance = self
 
-      Curses.init_screen
-      Curses.noecho
-      Curses.curs_set(0)
-      Curses.cbreak
-      # Curses.stdscr.keypad(true)
-      Curses.stdscr.nodelay = true
+      @renderer.setup
 
-      Curses.start_color
-      Curses.use_default_colors
-
-      @canvas = Canvas.new(Curses.cols, Curses.lines)
+      @canvas = Canvas.new(@renderer.cols, @renderer.lines)
 
       @runner.run do
         Phosphor::Events::MainReactor.start
@@ -57,14 +51,14 @@ module Phosphor
 
       @canvas.render
 
-      Curses.refresh
+      @renderer.refresh
     end
 
     def after_render
     end
 
     def stop
-      Curses.close_screen
+      @renderer.close_screen
 
       Phosphor::Mouse::Utils.disable_xterm_1003
 

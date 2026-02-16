@@ -58,10 +58,7 @@ module Phosphor
 
           @pixels.each_with_index do |row, y|
             row.each_with_index do |char, x|
-              Curses.attron(Curses.color_pair(@color_pairs[y][x] || 0)) do
-                Curses.setpos(y, x)
-                Curses.addstr(char)
-              end
+              Phosphor::App.instance.renderer.print_at(x, y, char, @color_pairs[y][x] || 0)
             end
           end
         end

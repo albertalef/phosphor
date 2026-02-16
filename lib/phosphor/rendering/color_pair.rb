@@ -9,7 +9,7 @@ module Phosphor
         @foreground_color = foreground_color
         @background_color = background_color
 
-        Curses.init_pair(
+        Phosphor::App.instance.renderer.init_pair(
           @pair_id,
           foreground_color.color_id,
           background_color&.color_id || -1

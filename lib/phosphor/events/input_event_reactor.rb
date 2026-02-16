@@ -5,20 +5,21 @@ module Phosphor
     class InputEventReactor
       class << self
         def start
-          Phosphor::App.instance.runner.add_periodic_timer(0.01) do
+          app_instance = Phosphor::App.instance
+          app_instance.runner.add_periodic_timer(0.01) do
             loop do
-              ch = Curses.get_char
+              ch = app_instance.renderer.get_char
               break if ch.nil?
 
               case ch
               when "q"
                 return stop
               when "\e"
-                case Curses.get_char
+                case app_instance.renderer.get_char
                 when "["
                   csi = ""
                   loop do
-                    d = Curses.get_char
+                    d = app_instance.renderer.get_char
                     csi += d
                     break if d.ord >= 0x40 && d.ord <= 0x7E
                   end

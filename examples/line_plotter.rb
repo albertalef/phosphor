@@ -19,7 +19,7 @@ class LinePlotter < Phosphor::App
 
     @rendered_frames = 0
 
-    EM.add_periodic_timer(1) do
+    runner.add_periodic_timer(1) do
       @fps_text.text = "FPS: #{@rendered_frames}"
       @rendered_frames = 0
     end
