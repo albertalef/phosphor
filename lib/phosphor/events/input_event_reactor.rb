@@ -5,7 +5,7 @@ module Phosphor
     class InputEventReactor
       class << self
         def start
-          EM.add_periodic_timer(0.01) do
+          Phosphor::App.instance.runner.add_periodic_timer(0.01) do
             loop do
               ch = Curses.get_char
               break if ch.nil?

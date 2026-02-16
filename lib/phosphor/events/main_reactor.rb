@@ -11,7 +11,7 @@ module Phosphor
         end
 
         def start
-          @queue = EM::Queue.new
+          @queue = Phosphor::App.instance.runner.queue_class.new
 
           InputEventReactor.start
 

@@ -5,7 +5,13 @@ module Phosphor
     include Phosphor::Objects
     include Phosphor::Rendering
 
-    attr_reader :canvas
+    attr_reader :canvas, :runner
+
+    def initialize(
+      runner: Runners::RawRunner
+    )
+      @runner = runner
+    end
 
     def start
       Phosphor::App.instance = self
@@ -22,14 +28,14 @@ module Phosphor
 
       @canvas = Canvas.new(Curses.cols, Curses.lines)
 
-      EM.run do
+      @runner.run do
         Phosphor::Events::MainReactor.start
 
-        EM.next_tick do
+        @runner.next_tick do
           on_start
         end
 
-        EM.add_periodic_timer(1.0 / 1000) do
+        @runner.add_periodic_timer(1.0 / 1000) do
           @canvas.clear
           update
           render

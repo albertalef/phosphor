@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "curses"
-require "eventmachine"
+# require "eventmachine"
 
 require_relative "phosphor/events/mouse_event"
 require_relative "phosphor/events/input_event_reactor"
@@ -21,6 +21,8 @@ require_relative "phosphor/objects/image"
 require_relative "phosphor/rendering/canvas"
 require_relative "phosphor/rendering/color"
 require_relative "phosphor/rendering/color_pair"
+
+require_relative "phosphor/runners/raw_runner"
 
 require_relative "phosphor/app"
 
