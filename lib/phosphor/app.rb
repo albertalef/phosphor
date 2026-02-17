@@ -9,7 +9,7 @@ module Phosphor
 
     def initialize(
       runner: Runners::RawRunner,
-      renderer: Renderers::CursesRenderer
+      renderer: Renderers::AnsiRenderer
     )
       @runner = runner
       @renderer = renderer
@@ -50,8 +50,6 @@ module Phosphor
       end
 
       @canvas.render
-
-      @renderer.refresh
     end
 
     def after_render; end

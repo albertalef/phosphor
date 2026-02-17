@@ -81,9 +81,15 @@ module Phosphor
           return unless @was_changed
 
           @was_changed = false
-          renderer = Phosphor::App.instance.renderer
+          out = String.new(capacity: 4096)
 
-          @height.times { |y| render_row(y, renderer) }
+          @height.times { |y| render_row_to(y, out) }
+
+          unless out.empty?
+            out << "\e[0m"
+            $stdout.write(out)
+            $stdout.flush
+          end
 
           swap_buffers
         end
@@ -99,7 +105,7 @@ module Phosphor
 
       private
 
-      def render_row(y, renderer)
+      def render_row_to(y, out)
         return unless @dirty_rows[y] || @prev_dirty_rows[y]
 
         pixels_row = @pixels[y]
@@ -113,9 +119,23 @@ module Phosphor
           break if x >= @width
 
           batch_start, batch, cp = build_batch(x, pixels_row, cp_row, prev_pixels_row, prev_cp_row)
-          renderer.print_at(batch_start, y, batch, cp)
+          append_batch(out, batch_start, y, batch, cp)
           x = batch_start + batch.length
         end
+      end
+
+      def append_batch(out, x, y, batch, cp)
+        out << "\e[#{y + 1};#{x + 1}H"
+        if cp != 0
+          ansi = ColorPair.ansi_for(cp)
+          if ansi
+            out << ansi
+            out << batch
+            out << "\e[0m"
+            return
+          end
+        end
+        out << batch
       end
 
       def find_dirty_pixel(x, pixels_row, cp_row, prev_pixels_row, prev_cp_row)

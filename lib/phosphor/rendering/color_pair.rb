@@ -3,7 +3,7 @@
 module Phosphor
   module Rendering
     class ColorPair
-      attr_reader :pair_id, :foreground_color, :background_color
+      attr_reader :pair_id, :foreground_color, :background_color, :ansi_sequence
 
       def initialize(foreground_color, background_color = nil)
         @pair_id = self.class.generate_new_pair_id
@@ -11,11 +11,34 @@ module Phosphor
         @foreground_color = foreground_color
         @background_color = background_color
 
+        @ansi_sequence = build_ansi_sequence
+
+        self.class.by_pair_id[@pair_id] = self
+
         Phosphor::App.instance.renderer.init_pair(
           @pair_id,
           foreground_color.color_id,
           background_color&.color_id || -1
         )
+      end
+
+      private
+
+      def build_ansi_sequence
+        seq = +""
+        if @foreground_color
+          r = Color.thousand_to_hex(@foreground_color.red_thousand)
+          g = Color.thousand_to_hex(@foreground_color.green_thousand)
+          b = Color.thousand_to_hex(@foreground_color.blue_thousand)
+          seq << "\e[38;2;#{r};#{g};#{b}m"
+        end
+        if @background_color
+          r = Color.thousand_to_hex(@background_color.red_thousand)
+          g = Color.thousand_to_hex(@background_color.green_thousand)
+          b = Color.thousand_to_hex(@background_color.blue_thousand)
+          seq << "\e[48;2;#{r};#{g};#{b}m"
+        end
+        seq.freeze
       end
 
       class << self
@@ -35,6 +58,14 @@ module Phosphor
 
         def pairs
           @pairs ||= {}
+        end
+
+        def by_pair_id
+          @by_pair_id ||= {}
+        end
+
+        def ansi_for(pair_id)
+          by_pair_id[pair_id]&.ansi_sequence
         end
 
         def generate_new_pair_id
