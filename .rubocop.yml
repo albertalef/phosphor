@@ -14,3 +14,29 @@ Style/Documentation:
 
 Layout/LineLength:
   Max: 120
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/AbcSize:
+  Max: 30
+
+Metrics/ClassLength:
+  Max: 150
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 11
+
+Metrics/ParameterLists:
+  Max: 7
+
+Metrics/BlockLength:
+  Max: 35
+
+Naming/MethodParameterName:
+  AllowedNames:
+    - x
+    - y

@@ -45,7 +45,7 @@ module Phosphor
 
       def setup
         @saved_termios = termios_get
-        set_raw_mode
+        apply_raw_mode
         $stdout.write("\e[?1049h\e[?25l\e[2J")
         $stdout.flush
       end
@@ -58,7 +58,7 @@ module Phosphor
         terminal_size[0]
       end
 
-      def get_char
+      def read_char
         $stdin.read_nonblock(1)&.force_encoding(Encoding::UTF_8)
       rescue IO::WaitReadable, EOFError
         nil
@@ -88,20 +88,22 @@ module Phosphor
         $stdin.ioctl(TCSETS, buf)
       end
 
-      def set_raw_mode
+      def apply_raw_mode
         buf = termios_get.dup
-
-        iflag = buf[0, 4].unpack1("I") & ~IFLAG_RAW_MASK
-        oflag = buf[4, 4].unpack1("I") & ~OPOST
-        cflag = (buf[8, 4].unpack1("I") & ~(CSIZE | PARENB)) | CS8
-        lflag = buf[12, 4].unpack1("I") & ~LFLAG_RAW_MASK
-
-        buf[0, 4]  = [iflag].pack("I")
-        buf[4, 4]  = [oflag].pack("I")
-        buf[8, 4]  = [cflag].pack("I")
-        buf[12, 4] = [lflag].pack("I")
-
+        clear_termios_flags(buf)
         termios_set(buf)
+      end
+
+      def clear_termios_flags(buf)
+        update_termios_field(buf, 0, IFLAG_RAW_MASK)
+        update_termios_field(buf, 4, OPOST)
+        update_termios_field(buf, 8, CSIZE | PARENB, CS8)
+        update_termios_field(buf, 12, LFLAG_RAW_MASK)
+      end
+
+      def update_termios_field(buf, offset, clear_mask, set_mask = 0)
+        value = buf[offset, 4].unpack1("I")
+        buf[offset, 4] = [(value & ~clear_mask) | set_mask].pack("I")
       end
     end
   end
