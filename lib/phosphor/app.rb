@@ -9,7 +9,7 @@ module Phosphor
 
     def initialize(
       runner: Runners::RawRunner,
-      renderer: Renderers::AnsiRenderer
+      renderer: Renderers::CursesRenderer
     )
       @runner = runner
       @renderer = renderer

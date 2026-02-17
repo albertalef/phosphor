@@ -15,6 +15,8 @@ module Phosphor
 
         Curses.start_color
         Curses.use_default_colors
+
+        Curses.refresh
       end
 
       def self.print_at(x, y, char, color_pair)

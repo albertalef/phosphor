@@ -20,7 +20,7 @@ require_relative "phosphor/rendering/color"
 require_relative "phosphor/rendering/color_pair"
 
 require_relative "phosphor/runners/raw_runner"
-require_relative "phosphor/renderers/ansi_renderer"
+require_relative "phosphor/renderers/curses_renderer"
 
 require_relative "phosphor/app"
 
