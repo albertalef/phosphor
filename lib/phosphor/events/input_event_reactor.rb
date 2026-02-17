@@ -13,7 +13,8 @@ module Phosphor
 
               case ch
               when "q"
-                return stop
+                app_instance.stop
+                break
               when "\e"
                 case app_instance.renderer.get_char
                 when "["

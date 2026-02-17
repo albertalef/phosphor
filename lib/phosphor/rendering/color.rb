@@ -3,16 +3,12 @@
 module Phosphor
   module Rendering
     class Color
-      attr_reader :color_id, :red_thousand, :green_thousand, :blue_thousand
+      attr_reader :red_thousand, :green_thousand, :blue_thousand
 
       def initialize(red_thousand, green_thousand, blue_thousand)
-        @color_id = self.class.generate_new_color_id
-
         @red_thousand = red_thousand
         @green_thousand = green_thousand
         @blue_thousand = blue_thousand
-
-        Phosphor::App.instance.renderer.init_color(@color_id, red_thousand, green_thousand, blue_thousand)
       end
 
       def foreground_pair
@@ -42,11 +38,6 @@ module Phosphor
 
         def colors
           @colors ||= {}
-        end
-
-        def generate_new_color_id
-          @last_color_id ||= 16
-          @last_color_id += 1
         end
 
         def thousand_to_hex(value)

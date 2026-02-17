@@ -9,7 +9,7 @@ module Phosphor
 
     def initialize(
       runner: Runners::RawRunner,
-      renderer: Renderers::CursesRenderer
+      renderer: Renderers::TerminalRenderer
     )
       @runner = runner
       @renderer = renderer
@@ -20,7 +20,7 @@ module Phosphor
 
       @renderer.setup
 
-      @canvas = Canvas.new(@renderer.cols, @renderer.lines)
+      @canvas = @renderer.canvas_class.new(@renderer.cols, @renderer.lines)
 
       @runner.run do
         Phosphor::Events::MainReactor.start
@@ -55,6 +55,7 @@ module Phosphor
     def after_render; end
 
     def stop
+      @runner.stop
       @renderer.close_screen
 
       Phosphor::Mouse::Utils.disable_xterm_1003

@@ -15,12 +15,11 @@ require_relative "phosphor/objects/ray"
 require_relative "phosphor/objects/circle"
 require_relative "phosphor/objects/image"
 
-require_relative "phosphor/rendering/canvas"
 require_relative "phosphor/rendering/color"
 require_relative "phosphor/rendering/color_pair"
 
 require_relative "phosphor/runners/raw_runner"
-require_relative "phosphor/renderers/curses_renderer"
+require_relative "phosphor/renderers/terminal_renderer"
 
 require_relative "phosphor/app"
 
