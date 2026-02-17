@@ -81,52 +81,11 @@ module Phosphor
           return unless @was_changed
 
           @was_changed = false
-
           renderer = Phosphor::App.instance.renderer
 
-          @height.times do |y|
-            # Only scan rows that are dirty now or were dirty last frame
-            next unless @dirty_rows[y] || @prev_dirty_rows[y]
+          @height.times { |y| render_row(y, renderer) }
 
-            pixels_row = @pixels[y]
-            cp_row = @color_pairs[y]
-            prev_pixels_row = @prev_pixels[y]
-            prev_cp_row = @prev_color_pairs[y]
-
-            x = 0
-            while x < @width
-              cp = cp_row[x] || 0
-              prev_cp = prev_cp_row[x] || 0
-
-              # Skip unchanged pixels
-              if pixels_row[x] == prev_pixels_row[x] && cp == prev_cp
-                x += 1
-                next
-              end
-
-              # Batch consecutive dirty chars with the same color pair
-              batch_start = x
-              batch = String.new(capacity: 32)
-              batch << pixels_row[x]
-              x += 1
-
-              while x < @width
-                next_cp = cp_row[x] || 0
-                break if next_cp != cp
-                break if pixels_row[x] == prev_pixels_row[x] && next_cp == (prev_cp_row[x] || 0)
-
-                batch << pixels_row[x]
-                x += 1
-              end
-
-              renderer.print_at(batch_start, y, batch, cp)
-            end
-          end
-
-          # Swap buffers instead of copying (O(1) vs O(w*h))
-          @prev_pixels, @pixels = @pixels, @prev_pixels
-          @prev_color_pairs, @color_pairs = @color_pairs, @prev_color_pairs
-          @prev_dirty_rows, @dirty_rows = @dirty_rows, @prev_dirty_rows
+          swap_buffers
         end
       end
 
@@ -136,6 +95,62 @@ module Phosphor
 
       def y_center_pos
         (height / 2).floor
+      end
+
+      private
+
+      def render_row(y, renderer)
+        return unless @dirty_rows[y] || @prev_dirty_rows[y]
+
+        pixels_row = @pixels[y]
+        cp_row = @color_pairs[y]
+        prev_pixels_row = @prev_pixels[y]
+        prev_cp_row = @prev_color_pairs[y]
+
+        x = 0
+        while x < @width
+          x = find_dirty_pixel(x, pixels_row, cp_row, prev_pixels_row, prev_cp_row)
+          break if x >= @width
+
+          batch_start, batch, cp = build_batch(x, pixels_row, cp_row, prev_pixels_row, prev_cp_row)
+          renderer.print_at(batch_start, y, batch, cp)
+          x = batch_start + batch.length
+        end
+      end
+
+      def find_dirty_pixel(x, pixels_row, cp_row, prev_pixels_row, prev_cp_row)
+        while x < @width
+          cp = cp_row[x] || 0
+          prev_cp = prev_cp_row[x] || 0
+          return x unless pixels_row[x] == prev_pixels_row[x] && cp == prev_cp
+
+          x += 1
+        end
+        x
+      end
+
+      def build_batch(x, pixels_row, cp_row, prev_pixels_row, prev_cp_row)
+        cp = cp_row[x] || 0
+        batch = String.new(capacity: 32)
+        batch << pixels_row[x]
+        x += 1
+
+        while x < @width
+          next_cp = cp_row[x] || 0
+          break if next_cp != cp
+          break if pixels_row[x] == prev_pixels_row[x] && next_cp == (prev_cp_row[x] || 0)
+
+          batch << pixels_row[x]
+          x += 1
+        end
+
+        [x - batch.length, batch, cp]
+      end
+
+      def swap_buffers
+        @prev_pixels, @pixels = @pixels, @prev_pixels
+        @prev_color_pairs, @color_pairs = @color_pairs, @prev_color_pairs
+        @prev_dirty_rows, @dirty_rows = @dirty_rows, @prev_dirty_rows
       end
     end
   end
