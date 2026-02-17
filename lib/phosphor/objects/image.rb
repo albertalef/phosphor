@@ -42,17 +42,18 @@ module Phosphor
 
       def render
         canvas = app_instance.canvas
+        block = "\u2588\u2588" * @scale.round
+        rounded_scale = scale.round
 
         @width.times do |image_x|
+          rx = (@x_pos + image_x * 2 * scale).round
+
           @height.times do |image_y|
-            scale.round.times do |scaled_y|
-              canvas.print_at(
-                (@x_pos + image_x * 2 * scale).round,
-                (@y_pos + image_y * scale + scaled_y).round,
-                "██" * @scale.round,
-                self,
-                color_pair: @pixels[image_x][image_y]
-              )
+            cp = @pixels[image_x][image_y]
+            ry_base = (@y_pos + image_y * scale).round
+
+            rounded_scale.times do |scaled_y|
+              canvas.print_at(rx, ry_base + scaled_y, block, self, color_pair: cp)
             end
           end
         end

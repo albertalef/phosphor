@@ -50,6 +50,9 @@ module Phosphor
       def y_pos_end = y_pos_start + @height / 2
 
       def render
+        canvas = app_instance.canvas
+        row = @stroke_char * 3
+
         @dot_count.times do |i|
           percent = i / @dot_count.to_f
 
@@ -58,10 +61,8 @@ module Phosphor
           new_x_pos = @x_pos + radius * Math.sin(angle_in_rads)
           new_y_pos = @y_pos + radius * Math.cos(angle_in_rads) / 2
 
-          3.times do |i|
-            3.times do |j|
-              app_instance.canvas.print_at(new_x_pos - 1 + i, new_y_pos + j - 1, @stroke_char, self)
-            end
+          3.times do |j|
+            canvas.print_at(new_x_pos - 1, new_y_pos + j - 1, row, self)
           end
         end
       end

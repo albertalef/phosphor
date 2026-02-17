@@ -25,6 +25,13 @@ module Phosphor
               t[:next_fire] = now + t[:interval]
             end
           end
+
+          # Sleep until next timer fires to avoid busy-waiting
+          if @next_ticks.empty? && @timers.any?
+            next_fire = @timers.map { |t| t[:next_fire] }.min
+            sleep_duration = next_fire - Time.now.to_f
+            sleep(sleep_duration) if sleep_duration > 0
+          end
         end
       end
 

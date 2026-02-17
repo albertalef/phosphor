@@ -59,12 +59,14 @@ module Phosphor
 
         canvas = app_instance.canvas
 
-        x_start.upto(x_end) do |x_pos|
-          canvas.print_at(x_pos, y_start, @stroke_char, self)
-          canvas.print_at(x_pos, y_end, @stroke_char, self)
-        end
+        border_width = x_end - x_start + 1
+        return if border_width < 1
 
-        y_start.upto(y_end) do |y_pos|
+        border = @stroke_char * border_width
+        canvas.print_at(x_start, y_start, border, self)
+        canvas.print_at(x_start, y_end, border, self) if y_end != y_start
+
+        (y_start + 1).upto(y_end - 1) do |y_pos|
           canvas.print_at(x_start, y_pos, @stroke_char, self)
           canvas.print_at(x_end, y_pos, @stroke_char, self)
         end
@@ -72,10 +74,9 @@ module Phosphor
         return unless x_end - x_start >= 3 && y_end - y_start >= 3
         return unless @fill_char
 
-        (x_start + 1).upto(x_end - 1) do |x_pos|
-          (y_start + 1).upto(y_end - 1) do |y_pos|
-            canvas.print_at(x_pos, y_pos, @fill_char, self)
-          end
+        fill_row = @fill_char * (x_end - x_start - 1)
+        (y_start + 1).upto(y_end - 1) do |y_pos|
+          canvas.print_at(x_start + 1, y_pos, fill_row, self)
         end
       end
     end
