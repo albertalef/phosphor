@@ -21,7 +21,7 @@ module Phosphor
       end
 
       def name
-        'ray_collide'
+        "ray_collide"
       end
     end
   end

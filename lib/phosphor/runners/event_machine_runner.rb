@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 
-require 'eventmachine'
+require "eventmachine"
 
 module Phosphor
   module Runners

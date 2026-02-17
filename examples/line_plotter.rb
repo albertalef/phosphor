@@ -61,7 +61,7 @@ class LinePlotter < Phosphor::App
       end
     end
 
-    on(:mouse_scroll) do |event|
+    on(:mouse_scroll) do |_event|
       @lines.each(&:hide)
     end
 

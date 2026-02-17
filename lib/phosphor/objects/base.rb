@@ -50,7 +50,7 @@ module Phosphor
 
       def self.on(event_name, &block)
         Phosphor::Events::MainReactor.on(event_name) do |event|
-          next unless Phosphor::App.instance.canvas.entity_on(event.y_pos, event.x_pos).class == self
+          next unless Phosphor::App.instance.canvas.entity_on(event.y_pos, event.x_pos).instance_of?(self)
 
           block.call(event, self)
         end

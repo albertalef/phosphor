@@ -10,7 +10,7 @@ module Phosphor
         y1_pos,
         x2_pos,
         y2_pos,
-        stroke_char: '*'
+        stroke_char: "*"
       )
         @x1_pos = x1_pos
         @y1_pos = y1_pos

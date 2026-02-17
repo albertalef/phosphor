@@ -32,11 +32,7 @@ class ImageRenderer < Phosphor::App
     )
 
     on(:mouse_button) do |event|
-      if event.pressed?
-        @pressed = canvas.entity_on(event.x_pos, event.y_pos)
-      else
-        @pressed = nil
-      end
+      @pressed = (canvas.entity_on(event.x_pos, event.y_pos) if event.pressed?)
     end
 
     @previous_x = 0

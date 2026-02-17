@@ -5,7 +5,7 @@ module Phosphor
     class Text < Base
       attr_accessor :text, :x_pos, :y_pos
 
-      def initialize(text = '', x_pos = 0, y_pos = 0)
+      def initialize(text = "", x_pos = 0, y_pos = 0)
         @text = text
         @x_pos = x_pos
         @y_pos = y_pos

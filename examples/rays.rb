@@ -9,9 +9,9 @@ class Rays < Phosphor::App
     "@", "#", "W", "$", "M", "G", "B", "%",
     "E", "O", "C", "S", "z", "o", "r", "l",
     "i", ":", ",", "."
-  ]
+  ].freeze
 
-  BRAILE_CHARS = ["⣿", "⣷", "⢾", "⢹", "⢩", "⠇", "⠃", "⠁"]
+  BRAILE_CHARS = ["⣿", "⣷", "⢾", "⢹", "⢩", "⠇", "⠃", "⠁"].freeze
 
   def char_color(actual, max)
     percentage = actual / max.to_f
@@ -129,7 +129,7 @@ class Rays < Phosphor::App
   end
 
   def after_render
-    @walls.values.each { |a| a.hide }
+    @walls.each_value(&:hide)
   end
 end
 

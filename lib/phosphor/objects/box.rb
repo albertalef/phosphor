@@ -15,7 +15,7 @@ module Phosphor
         y_pos = 0,
         x_anchor: :start,
         y_anchor: :start,
-        stroke_char: '*',
+        stroke_char: "*",
         fill_char: nil
       )
         @height = height

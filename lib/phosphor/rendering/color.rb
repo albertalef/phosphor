@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Phosphor
   module Rendering
     class Color
@@ -52,7 +54,7 @@ module Phosphor
         end
 
         def rgb_to_hex(red, green, blue)
-          [red, green, blue].map { |a| (a / 100.to_f * 255).round.to_s(16).rjust(2, '0') }.join.upcase
+          [red, green, blue].map { |a| (a / 100.to_f * 255).round.to_s(16).rjust(2, "0") }.join.upcase
         end
       end
     end

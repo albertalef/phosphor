@@ -54,8 +54,7 @@ module Phosphor
       @renderer.refresh
     end
 
-    def after_render
-    end
+    def after_render; end
 
     def stop
       @renderer.close_screen
